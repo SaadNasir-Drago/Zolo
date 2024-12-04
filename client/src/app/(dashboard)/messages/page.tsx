@@ -106,7 +106,7 @@ const MessageThread = () => {
       const page = 1;
       const limit = 10;
       const response = await fetch(
-        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/deals?page=${page}&limit=${limit}`,
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/deals?page=${page}&limit=${limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,7 +133,7 @@ const MessageThread = () => {
   const fetchPropertyDetails = async (dealId: string) => {
     try {
       const response = await fetch(
-        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/dealProperty?dealId=${dealId}`
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/dealProperty?dealId=${dealId}`
       );
       const data = await response.json();
       return data.property; // Assuming the API response has a 'property' field
@@ -146,7 +146,7 @@ const MessageThread = () => {
   const fetchMessages = async (dealId: string) => {
     try {
       const response = await fetch(
-        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message?dealId=${dealId}`
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/message?dealId=${dealId}`
       );
       const data = await response.json();
       if (data.messages) {
@@ -194,7 +194,7 @@ const MessageThread = () => {
 
     try {
       const response = await fetch(
-        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/message",
         {
           method: "POST",
           headers: {
@@ -230,7 +230,7 @@ const MessageThread = () => {
     if (!selectedDeal || !selectedOffer) return;
     try {
       await fetch(
-        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/acceptDeal?dealId=${selectedDeal._id}`,
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/acceptDeal?dealId=${selectedDeal._id}`,
         {
           method: "PUT",
         }
@@ -246,7 +246,7 @@ const MessageThread = () => {
       };
 
       await fetch(
-        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/messageAll",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/messageAll",
         {
           method: "POST",
           headers: {
@@ -266,7 +266,7 @@ const MessageThread = () => {
       };
 
       const response = await fetch(
-        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/message",
         {
           method: "POST",
           headers: {
@@ -302,7 +302,7 @@ const MessageThread = () => {
       };
 
       const response = await fetch(
-        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/message",
         {
           method: "POST",
           headers: {

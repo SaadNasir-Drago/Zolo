@@ -87,7 +87,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       if (isSignIn) {
         // Login request
         const response = await axios.post(
-          "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/auth/login",
+          "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/auth/login",
           {
             email: formData.email,
             password: formData.password,
@@ -124,7 +124,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       } else {
         // Register request
         await axios.post(
-          "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/auth/register",
+          "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/auth/register",
           {
             firstname: formData.firstname,
             lastname: formData.lastname,
