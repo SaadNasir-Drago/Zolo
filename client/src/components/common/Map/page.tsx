@@ -59,7 +59,7 @@ const Map: React.FC<MapProps> = ({
   const fetchFullPropertyDetails = async (propertyId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/properties/${propertyId}`
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/${propertyId}`
       );
       if (!response.ok) throw new Error("Failed to fetch property details");
       return await response.json();
@@ -294,15 +294,15 @@ const Map: React.FC<MapProps> = ({
 
   return (
     <div className="relative h-full w-full bg-white">
-  {loading && (
-  <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
-    <div className="bg-white px-4 py-2 rounded-full shadow-lg">
-      <div className="flex items-center">
-        <HashLoader color="#4A90E2" loading={loading} size={50} />
-      </div>
-    </div>
-  </div>
-)}
+      {loading && (
+        <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
+          <div className="bg-white px-4 py-2 rounded-full shadow-lg">
+            <div className="flex items-center">
+              <HashLoader color="#4A90E2" loading={loading} size={50} />
+            </div>
+          </div>
+        </div>
+      )}
       {mapError && (
         <div className="absolute top-4 left-1/2 transform -translate-x-1/2 z-20">
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-2 rounded-lg">

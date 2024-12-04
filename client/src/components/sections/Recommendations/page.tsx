@@ -40,7 +40,9 @@ const Recommendations = () => {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/property");
+        const response = await fetch(
+          "https://inquisitive-cheesecake-790f9d.netlify.app/api/property"
+        );
         if (!response.ok) {
           throw new Error("Failed to fetch properties");
         }
@@ -89,13 +91,16 @@ const Recommendations = () => {
     }
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent) => {
-    if (!isDragging || !scrollContainerRef.current) return;
-    e.preventDefault();
-    const x = e.pageX - scrollContainerRef.current.offsetLeft;
-    const walk = (x - startX) * 1.5;
-    scrollContainerRef.current.scrollLeft = scrollLeft - walk;
-  }, [isDragging, startX, scrollLeft]);
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!isDragging || !scrollContainerRef.current) return;
+      e.preventDefault();
+      const x = e.pageX - scrollContainerRef.current.offsetLeft;
+      const walk = (x - startX) * 1.5;
+      scrollContainerRef.current.scrollLeft = scrollLeft - walk;
+    },
+    [isDragging, startX, scrollLeft]
+  );
 
   const handleMouseUpOrLeave = useCallback(() => {
     setIsDragging(false);

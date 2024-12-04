@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Box, Tabs, Tab, Typography, Button } from '@mui/material';
-import { useRouter } from 'next/navigation'; // for redirecting users
-import Cookies from 'js-cookie';
-import { PropertyCard } from '@/components/common/Card/PropertyCard';
+import React, { useState, useEffect } from "react";
+import { Box, Tabs, Tab, Typography, Button } from "@mui/material";
+import { useRouter } from "next/navigation"; // for redirecting users
+import Cookies from "js-cookie";
+import { PropertyCard } from "@/components/common/Card/PropertyCard";
 
 // Define the type for a Property
 interface Property {
@@ -17,8 +17,8 @@ interface Property {
 
 // Component Definition
 export default function Page() {
-  const [filter, setFilter] = useState<'All' | 'Rent' | 'For Sale'>('All'); // To manage selected tab
-  const [searchQuery] = useState(''); // To manage search input
+  const [filter, setFilter] = useState<"All" | "Rent" | "For Sale">("All"); // To manage selected tab
+  const [searchQuery] = useState(""); // To manage search input
   const [properties, setProperties] = useState<Property[]>([]); // To store the properties fetched from the API
   const [loading, setLoading] = useState(true); // To manage loading state
   const [setError] = useState<string | null>(null); // To manage errors
@@ -28,35 +28,38 @@ export default function Page() {
   useEffect(() => {
     const fetchProperties = async () => {
       try {
-        const token = Cookies.get('token');
+        const token = Cookies.get("token");
         if (!token) {
-          setError('No token found. Please log in again.');
+          setError("No token found. Please log in again.");
           setLoading(false);
           return;
         }
 
-        const response = await fetch('http://localhost:8000/api/user-properties', {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          "https://inquisitive-cheesecake-790f9d.netlify.app/api/user-properties",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         // Check if the response was successful
         if (response.ok) {
           const data: Property[] = await response.json();
           if (data.length === 0) {
             setProperties([]);
-            setError('No properties found.');
+            setError("No properties found.");
           } else {
             setProperties(data);
           }
         } else {
-          setError('Error fetching properties. Please try again later.');
+          setError("Error fetching properties. Please try again later.");
         }
       } catch (err) {
-        console.error('Network Error:', err);
-        setError('Network error. Please try again later.');
+        console.error("Network Error:", err);
+        setError("Network error. Please try again later.");
       } finally {
         setLoading(false);
       }
@@ -68,8 +71,7 @@ export default function Page() {
   // Function to handle the filtering of properties
   const filteredProperties = properties.filter((property: Property) => {
     const matchesCategory =
-      filter === 'All' ||
-      (property.isForRent ? 'Rent' : 'For Sale') === filter;
+      filter === "All" || (property.isForRent ? "Rent" : "For Sale") === filter;
     const matchesSearch =
       property.address.toLowerCase().includes(searchQuery.toLowerCase()) ||
       property.description.toLowerCase().includes(searchQuery.toLowerCase());
@@ -78,13 +80,15 @@ export default function Page() {
 
   // Handle redirect to create listing page
   const handleCreateListing = () => {
-    router.push('/create-listing');
+    router.push("/create-listing");
   };
 
   // Function to handle property deletion and update the state
   const handleDeleteProperty = (deletedPropertyId: string) => {
     setProperties((prevProperties) =>
-      prevProperties.filter((property: Property) => property._id !== deletedPropertyId)
+      prevProperties.filter(
+        (property: Property) => property._id !== deletedPropertyId
+      )
     );
   };
 
@@ -93,16 +97,18 @@ export default function Page() {
       {/* Navigation Tabs */}
       <Box
         sx={{
-          display: 'flex',
-          justifyContent: 'space-between',
-          alignItems: 'center',
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
           mb: 3,
-          border: '1px black groove',
+          border: "1px black groove",
         }}
       >
         <Tabs
           value={filter}
-          onChange={(e, newValue: 'All' | 'Rent' | 'For Sale') => setFilter(newValue)}
+          onChange={(e, newValue: "All" | "Rent" | "For Sale") =>
+            setFilter(newValue)
+          }
           textColor="primary"
           indicatorColor="primary"
         >
@@ -115,8 +121,8 @@ export default function Page() {
       {/* Property Cards or Message */}
       <Box
         sx={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fill, minmax(300px, 1fr))',
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))",
           gap: 1.5,
         }}
       >
@@ -138,7 +144,7 @@ export default function Page() {
             <div></div>
             <div></div>
             <div></div>
-            <Box sx={{ textAlign: 'center' }}>
+            <Box sx={{ textAlign: "center" }}>
               <Typography variant="body1" color="text.secondary">
                 No properties found.
               </Typography>

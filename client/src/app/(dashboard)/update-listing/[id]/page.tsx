@@ -2,15 +2,16 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CreateListing from "../../create-listing/page";
-const Updatelisting = ({params}: {params: {id: string}}) => {
-  
+const Updatelisting = ({ params }: { params: { id: string } }) => {
   const [property, setProperty] = useState(null);
   const { id } = params; // This gets the dynamic `id` from the URL
 
   useEffect(() => {
     if (id) {
       axios
-        .get(`http://localhost:8000/api/getProperty/${id}`)
+        .get(
+          `https://inquisitive-cheesecake-790f9d.netlify.app/api/getProperty/${id}`
+        )
         .then((response) => {
           setProperty(response.data);
         })
@@ -22,8 +23,8 @@ const Updatelisting = ({params}: {params: {id: string}}) => {
 
   return (
     <div>
-<CreateListing {...(property ? { updateData: property } : {})} />
-</div>
+      <CreateListing {...(property ? { updateData: property } : {})} />
+    </div>
   );
 };
 

@@ -21,7 +21,7 @@ const AcceptDeclineDialog = dynamic(() => import("./acceptDeclineDialog"));
 const DealList = dynamic(() => import("./dealList"));
 const PropertyModal = dynamic(() => import("./detailsModal"));
 import { io } from "socket.io-client";
-import {Notyf} from "notyf";
+import { Notyf } from "notyf";
 
 const socket = io("http://localhost:8000"); // Connect to the WebSocket server
 
@@ -58,7 +58,6 @@ const MessageThread = () => {
 
     initializeData();
     setNotyf(new Notyf());
-
   }, []);
 
   // Initialize socket connection
@@ -87,7 +86,6 @@ const MessageThread = () => {
     if (!selectedDeal) return;
 
     const handleNewMessage = (newMessage: Message) => {
-    
       if (newMessage.dealId === selectedDeal._id) {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       }
@@ -108,7 +106,7 @@ const MessageThread = () => {
       const page = 1;
       const limit = 10;
       const response = await fetch(
-        `http://localhost:8000/api/deals?page=${page}&limit=${limit}`,
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/deals?page=${page}&limit=${limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -122,7 +120,7 @@ const MessageThread = () => {
       } else {
         // notyf.success("Deals fetched successfully");
       }
-      
+
       setDealLogs(data.deals);
       return data.deals;
     } catch (error) {
@@ -135,7 +133,7 @@ const MessageThread = () => {
   const fetchPropertyDetails = async (dealId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/dealProperty?dealId=${dealId}`
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/dealProperty?dealId=${dealId}`
       );
       const data = await response.json();
       return data.property; // Assuming the API response has a 'property' field
@@ -148,7 +146,7 @@ const MessageThread = () => {
   const fetchMessages = async (dealId: string) => {
     try {
       const response = await fetch(
-        `http://localhost:8000/api/message?dealId=${dealId}`
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/message?dealId=${dealId}`
       );
       const data = await response.json();
       if (data.messages) {
@@ -174,7 +172,6 @@ const MessageThread = () => {
 
     setSelectedProperty(property);
     setMessages(dealMessages);
-
   };
 
   const sendMessage = async (isOffer: boolean) => {
@@ -196,13 +193,16 @@ const MessageThread = () => {
     };
 
     try {
-      const response = await fetch("http://localhost:8000/api/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMessageData),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMessageData),
+        }
+      );
 
       if (response.ok) {
         const savedMessage = await response.json();
@@ -230,7 +230,7 @@ const MessageThread = () => {
     if (!selectedDeal || !selectedOffer) return;
     try {
       await fetch(
-        `http://localhost:8000/api/acceptDeal?dealId=${selectedDeal._id}`,
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/acceptDeal?dealId=${selectedDeal._id}`,
         {
           method: "PUT",
         }
@@ -245,13 +245,16 @@ const MessageThread = () => {
         propertyId: selectedDeal.propertyId,
       };
 
-      await fetch("http://localhost:8000/api/messageAll", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(notificationMessage),
-      });
+      await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/messageAll",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notificationMessage),
+        }
+      );
 
       const newMessageData = {
         dealId: selectedDeal._id,
@@ -262,13 +265,16 @@ const MessageThread = () => {
           : { sellerId: userData?._id }),
       };
 
-      const response = await fetch("http://localhost:8000/api/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newMessageData),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newMessageData),
+        }
+      );
 
       if (response.ok) {
         setIsChatClosed(true);
@@ -295,19 +301,20 @@ const MessageThread = () => {
           : { sellerId: userData?._id }),
       };
 
-      const response = await fetch("http://localhost:8000/api/message", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(notificationMessage),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(notificationMessage),
+        }
+      );
 
       if (response.ok) {
-
         const savedMessage = await response.json();
         setMessages([...messages, savedMessage.savedMessage]);
-        
       }
       setIsChatClosed(true);
       setOpenAcceptDeclineDialog(false);
@@ -315,11 +322,11 @@ const MessageThread = () => {
       console.error("Error declining offer:", error);
     }
   };
-  
+
   if (!isClient) {
     return null; // Prevent rendering on the server
   }
-  
+
   return (
     <Box sx={{ flexGrow: 1, height: "100vh", p: 2, backgroundColor: "#fffff" }}>
       <Grid container spacing={2} sx={{ height: "100%" }}>

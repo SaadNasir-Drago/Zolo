@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React, { useState } from "react";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { Button } from "@/components/ui/button/page";
@@ -15,13 +15,13 @@ interface PropertyModalProps {
   property: Property;
   isOpen: boolean;
   onClose: () => void;
-  onDelete: (propertyId: string) => void; 
+  onDelete: (propertyId: string) => void;
 }
 const DashboardPropertyModal: React.FC<PropertyModalProps> = ({
   property,
   isOpen,
   onClose,
-  onDelete,  
+  onDelete,
 }) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const router = useRouter();
@@ -35,26 +35,31 @@ const DashboardPropertyModal: React.FC<PropertyModalProps> = ({
   };
   // Handle Delete
   const handleDelete = async () => {
-    const confirmDelete = window.confirm('Are you sure you want to delete this property?');
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this property?"
+    );
     if (!confirmDelete) return;
     try {
       const token = Cookies.get("token");
-      const response = await fetch(`http://localhost:8000/api/properties/${property._id}`, {
-        method: 'DELETE',
-        headers: {
-          'Authorization': `Bearer ${token}`,
-        },
-      });
+      const response = await fetch(
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/${property._id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
       if (response.ok) {
-        alert('Property deleted successfully.');
+        alert("Property deleted successfully.");
         onDelete(property._id); // Notify the parent to update the state
         onClose(); // Close the modal after deletion
-        window.location.reload()
+        window.location.reload();
       } else {
-        alert('Failed to delete property.');
+        alert("Failed to delete property.");
       }
     } catch (error) {
-      console.error('Delete error:', error);
+      console.error("Delete error:", error);
     }
   };
   return (
@@ -118,14 +123,14 @@ const DashboardPropertyModal: React.FC<PropertyModalProps> = ({
           >
             Delete Property
           </Button>
-            <Button
+          <Button
             variant="outline"
             color="primary"
             onClick={() => router.push(`/update-listing/${property._id}`)}
             className="flex-1 bg-blue-600 text-white font-semibold"
-            >
+          >
             Edit Property
-            </Button>
+          </Button>
         </div>
       </DialogContent>
     </Dialog>

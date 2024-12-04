@@ -151,7 +151,7 @@ const AddressInput: React.FC<AddressInputProps> = ({
       zoom: 3,
     });
     setMap(mapInstance);
-    setNotyf( new Notyf());
+    setNotyf(new Notyf());
     return () => mapInstance.remove();
   }, []);
 
@@ -176,7 +176,6 @@ const AddressInput: React.FC<AddressInputProps> = ({
   );
 };
 
-
 const CreateListing: React.FC<any> = ({ updateData }) => {
   const [notyf, setNotyf] = useState<Notyf | null>(null);
   const dispatch = useDispatch<AppDispatch>();
@@ -189,27 +188,32 @@ const CreateListing: React.FC<any> = ({ updateData }) => {
   // });
 
   useEffect(() => {
-    setNotyf( new Notyf({
-      duration: 1000,
-      position: {
-        x: "right",
-        y: "top",
-      },
-    }));
+    setNotyf(
+      new Notyf({
+        duration: 1000,
+        position: {
+          x: "right",
+          y: "top",
+        },
+      })
+    );
     if (updateData) {
       setPropertyType(updateData.propertyType ?? "");
       setSquareFootage(updateData.size ?? "");
-      setBedrooms(updateData.bed?? "");
-      setBathrooms(updateData.bath?? "");
-      setDescription(updateData.description?? "");
-      setAddress(updateData.address?? "");
-      setRent(updateData.price?? "");
+      setBedrooms(updateData.bed ?? "");
+      setBathrooms(updateData.bath ?? "");
+      setDescription(updateData.description ?? "");
+      setAddress(updateData.address ?? "");
+      setRent(updateData.price ?? "");
       setIsForRent(updateData.isForRent ?? true);
       setIsForSale(updateData.isForSale ?? false);
       setAmenities(updateData.amenities ?? []);
-      setFiles(updateData.images?.map((image) => ({ name: image, preview: image })) ?? []);
-      setlat(updateData.lat ?? 0)
-      setlong(updateData.long ?? 0)
+      setFiles(
+        updateData.images?.map((image) => ({ name: image, preview: image })) ??
+          []
+      );
+      setlat(updateData.lat ?? 0);
+      setlong(updateData.long ?? 0);
     }
   }, [updateData]);
 
@@ -222,8 +226,7 @@ const CreateListing: React.FC<any> = ({ updateData }) => {
   const [amenities, setAmenities] = useState<string[]>([]);
   const [activeStep, setActiveStep] = useState<number>(0);
   const [address, setAddress] = useState<string>(""); // State for address
-  
-  
+
   //details rent or sale
   const [listingType, setListingType] = useState<string>("rent");
   const [securityDeposit, setSecurityDeposit] = useState<number | string>("");
@@ -236,57 +239,54 @@ const CreateListing: React.FC<any> = ({ updateData }) => {
   const [long, setlong] = useState<number | null>(null);
 
   const router = useRouter();
-  
+
   // Add this validation function
-const isStepValid = (step: number): boolean => {
-  switch (step) {
-    case 0:
-      // Basic property details validation
-      return !!(
-        propertyType && 
-        squareFootage && 
-        bedrooms && 
-        bathrooms && 
-        address && 
-        description
-      );
-    
-    case 1:
-      // Rent/Sale details validation
-      if (isForRent) {
-        return !!(rent && securityDeposit);
-      }
-      return true;
-    
-    case 2:
-      // Media validation
-      return files.length > 0;
-    
-    case 3:
-      // Amenities validation
-      return amenities.length > 0;
-    
-    default:
-      return true;
-  }
-};
+  const isStepValid = (step: number): boolean => {
+    switch (step) {
+      case 0:
+        // Basic property details validation
+        return !!(
+          propertyType &&
+          squareFootage &&
+          bedrooms &&
+          bathrooms &&
+          address &&
+          description
+        );
+
+      case 1:
+        // Rent/Sale details validation
+        if (isForRent) {
+          return !!(rent && securityDeposit);
+        }
+        return true;
+
+      case 2:
+        // Media validation
+        return files.length > 0;
+
+      case 3:
+        // Amenities validation
+        return amenities.length > 0;
+
+      default:
+        return true;
+    }
+  };
 
   const handleNext = () => {
     if (activeStep === steps.length - 1) {
       router.push("/properties");
-    }
-    else if (isStepValid(activeStep) ) {
+    } else if (isStepValid(activeStep)) {
       setActiveStep((prevActiveStep) => prevActiveStep + 1);
-    } 
-    else {
-      alert('Please fill in all required fields before proceeding');
+    } else {
+      alert("Please fill in all required fields before proceeding");
     }
   };
 
   const handleBack = () => {
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
-
 
   // Handle form submission (for demonstration)
   const handleSubmit = async (event: React.FormEvent) => {
@@ -326,28 +326,28 @@ const isStepValid = (step: number): boolean => {
   const handleEdit = (step: number) => {
     setActiveStep(step);
   };
-  
+
   const handleUpdate = async (event: React.FormEvent) => {
     event.preventDefault();
     event.preventDefault();
     const propertyData = {
-        _id: updateData?._id,
-        size: Number(squareFootage),
-        bed: Number(bedrooms),
-        bath: Number(bathrooms),
-        description,
-        amenities,
-        lat,
-        long,
-        address,
-        price: Number(rent),
-        propertyType,
-        isForRent,
-        isForSale,
+      _id: updateData?._id,
+      size: Number(squareFootage),
+      bed: Number(bedrooms),
+      bath: Number(bathrooms),
+      description,
+      amenities,
+      lat,
+      long,
+      address,
+      price: Number(rent),
+      propertyType,
+      isForRent,
+      isForSale,
     };
     try {
       const response = await fetch(
-        `http://localhost:8000/api/updateProperty/${propertyData._id}`,
+        `https://inquisitive-cheesecake-790f9d.netlify.app/api/updateProperty/${propertyData._id}`,
         {
           method: "PUT",
           headers: {
@@ -363,7 +363,7 @@ const isStepValid = (step: number): boolean => {
 
       const result = await response.json();
       notyf.success("Property updated successfully");
-      router.push('/properties')
+      router.push("/properties");
       return result;
     } catch (error) {
       notyf.error("Error updating property data");
@@ -380,16 +380,16 @@ const isStepValid = (step: number): boolean => {
             Create Your Property Listing
           </Typography>
 
-        <Box mt={2}>
-          {/* Stepper */}
-          <Stepper activeStep={activeStep}>
-            {steps.map((label) => (
-              <Step key={label}>
-                <StepLabel>{label}</StepLabel>
-              </Step>
-            ))}
-          </Stepper>
-        </Box>
+          <Box mt={2}>
+            {/* Stepper */}
+            <Stepper activeStep={activeStep}>
+              {steps.map((label) => (
+                <Step key={label}>
+                  <StepLabel>{label}</StepLabel>
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
 
           <React.Fragment>
             <form onSubmit={handleSubmit}>
@@ -461,31 +461,30 @@ const isStepValid = (step: number): boolean => {
                     </Select>
                   </FormControl>
 
-              <AddressInput 
-                setlat={setlat}
-                setlong={setlong}
-                setAddress={setAddress}
-                address={address}
-              />
+                  <AddressInput
+                    setlat={setlat}
+                    setlong={setlong}
+                    setAddress={setAddress}
+                    address={address}
+                  />
 
-              <Box mt={4}>
-            
-                <Typography variant="h4" gutterBottom>
-                Description
-                </Typography>
-                <TextField
-                label="Description"
-                fullWidth
-                multiline
-                rows={4}
-                variant="outlined"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                required
-                />
-              </Box>
-              </React.Fragment>
-            )}
+                  <Box mt={4}>
+                    <Typography variant="h4" gutterBottom>
+                      Description
+                    </Typography>
+                    <TextField
+                      label="Description"
+                      fullWidth
+                      multiline
+                      rows={4}
+                      variant="outlined"
+                      value={description}
+                      onChange={(e) => setDescription(e.target.value)}
+                      required
+                    />
+                  </Box>
+                </React.Fragment>
+              )}
 
               {activeStep === 1 && (
                 <RentDetails
@@ -519,26 +518,30 @@ const isStepValid = (step: number): boolean => {
                     Review Your Listing
                   </Typography>
 
-    {/* Property Information Card */}
-    <Card sx={{ mt: 1 }}>
-      <CardContent>
-        <Typography variant="h6">Property Information</Typography>
-        <Typography>Property Type: {propertyType}</Typography>
-        <Typography>Square Footage: {squareFootage} sq ft</Typography>
-        <Typography>Bedrooms: {bedrooms}</Typography>
-        <Typography>Bathrooms: {bathrooms}</Typography>
-        <Typography >Address: {address}</Typography>
-        <Typography sx={{ mt: 2 }}>Description: {description}</Typography>
-      </CardContent>
-      <CardActions>
-        <Button
-          startIcon={<EditIcon />}
-          onClick={() => handleEdit(0)}
-        >
-          Edit
-        </Button>
-      </CardActions>
-    </Card>
+                  {/* Property Information Card */}
+                  <Card sx={{ mt: 1 }}>
+                    <CardContent>
+                      <Typography variant="h6">Property Information</Typography>
+                      <Typography>Property Type: {propertyType}</Typography>
+                      <Typography>
+                        Square Footage: {squareFootage} sq ft
+                      </Typography>
+                      <Typography>Bedrooms: {bedrooms}</Typography>
+                      <Typography>Bathrooms: {bathrooms}</Typography>
+                      <Typography>Address: {address}</Typography>
+                      <Typography sx={{ mt: 2 }}>
+                        Description: {description}
+                      </Typography>
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        startIcon={<EditIcon />}
+                        onClick={() => handleEdit(0)}
+                      >
+                        Edit
+                      </Button>
+                    </CardActions>
+                  </Card>
 
                   {/* Rent/Sale Details Card */}
                   <Card sx={{ mt: 2 }}>
@@ -567,43 +570,45 @@ const isStepValid = (step: number): boolean => {
                     </CardActions>
                   </Card>
 
-    {/* Media Card */}
-    <Card sx={{ mt: 2 }}>
-      <CardContent>
-        <Typography variant="h6">Uploaded Media</Typography>
-        {files.length > 0 ? (
-          <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-            {files.map((file) => (
-              <Box key={file.name}>
-                <Typography variant="body2">{file.name}</Typography>
-                {file.preview && (
-                  <img 
-                    src={`/uploads/${file.name}`} 
-                    alt={file.name}
-                    style={{ 
-                      width: '100px', 
-                      height: '100px', 
-                      objectFit: 'cover',
-                      marginTop: '8px'
-                    }} 
-                  />
-                )}
-              </Box>
-            ))}
-          </Box>
-        ) : (
-          <Typography>No media uploaded</Typography>
-        )}
-      </CardContent>
-      <CardActions>
-        <Button
-          startIcon={<EditIcon />}
-          onClick={() => handleEdit(2)}
-        >
-          Edit
-        </Button>
-      </CardActions>
-    </Card>
+                  {/* Media Card */}
+                  <Card sx={{ mt: 2 }}>
+                    <CardContent>
+                      <Typography variant="h6">Uploaded Media</Typography>
+                      {files.length > 0 ? (
+                        <Box sx={{ display: "flex", flexWrap: "wrap", gap: 1 }}>
+                          {files.map((file) => (
+                            <Box key={file.name}>
+                              <Typography variant="body2">
+                                {file.name}
+                              </Typography>
+                              {file.preview && (
+                                <img
+                                  src={`/uploads/${file.name}`}
+                                  alt={file.name}
+                                  style={{
+                                    width: "100px",
+                                    height: "100px",
+                                    objectFit: "cover",
+                                    marginTop: "8px",
+                                  }}
+                                />
+                              )}
+                            </Box>
+                          ))}
+                        </Box>
+                      ) : (
+                        <Typography>No media uploaded</Typography>
+                      )}
+                    </CardContent>
+                    <CardActions>
+                      <Button
+                        startIcon={<EditIcon />}
+                        onClick={() => handleEdit(2)}
+                      >
+                        Edit
+                      </Button>
+                    </CardActions>
+                  </Card>
 
                   {/* Amenities Card */}
                   <Card sx={{ mt: 2 }}>
@@ -643,36 +648,36 @@ const isStepValid = (step: number): boolean => {
                 </Box>
               )}
 
-            <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
-              <Button
-              color="inherit"
-              disabled={activeStep === 0}
-              onClick={handleBack}
-              sx={{ mr: 1 }}
-              >
-              Back
-              </Button>
-              <Box sx={{ flex: "1 1 auto" }} />
-              
-              {activeStep === steps.length - 1 ? (
+              <Box sx={{ display: "flex", flexDirection: "row", pt: 2 }}>
                 <Button
-                variant="contained"
-                color="primary"
-                onClick={updateData ? handleUpdate : handleSubmit} // Call handleUpdate or handleSubmit based on updateData
+                  color="inherit"
+                  disabled={activeStep === 0}
+                  onClick={handleBack}
+                  sx={{ mr: 1 }}
                 >
-                {updateData ? "Update" : "Publish"}
+                  Back
                 </Button>
-            ) : (
-              <Button
-              variant="contained"
-              color="primary"
-              onClick={handleNext} // Move to the next step
-              type="button"
-              >
-              Next
-              </Button>
-            )}
-            </Box>
+                <Box sx={{ flex: "1 1 auto" }} />
+
+                {activeStep === steps.length - 1 ? (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={updateData ? handleUpdate : handleSubmit} // Call handleUpdate or handleSubmit based on updateData
+                  >
+                    {updateData ? "Update" : "Publish"}
+                  </Button>
+                ) : (
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={handleNext} // Move to the next step
+                    type="button"
+                  >
+                    Next
+                  </Button>
+                )}
+              </Box>
             </form>
           </React.Fragment>
         </Box>

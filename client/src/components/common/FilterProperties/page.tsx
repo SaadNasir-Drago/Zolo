@@ -23,7 +23,6 @@ interface Property {
   propertyType: string;
   isForRent: boolean;
   isForSale: boolean;
-  
 }
 
 interface Props {
@@ -93,7 +92,7 @@ const FilterProperties: React.FC<Props> = ({
         });
 
         const response = await fetch(
-          `http://localhost:8000/api/properties/search?${params}`
+          `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/search?${params}`
         );
         if (!response.ok) throw new Error("Failed to fetch properties");
         const data = await response.json();

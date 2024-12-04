@@ -1,6 +1,12 @@
-'use client'
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { setCookie, getCookie, deleteCookie } from 'cookies-next';
+"use client";
+import {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { setCookie, getCookie, deleteCookie } from "cookies-next";
 
 interface User {
   _id: string;
@@ -23,7 +29,7 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const COOKIE_OPTIONS = {
   maxAge: 30 * 24 * 60 * 60, // 30 days
-  secure: process.env.NODE_ENV === 'production',
+  secure: process.env.NODE_ENV === "production",
   sameSite: true,
 };
 
@@ -33,8 +39,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     // Check for saved token and user data in cookies on mount
-    const savedToken = getCookie('accessToken');
-    const savedUser = getCookie('user');
+    const savedToken = getCookie("accessToken");
+    const savedUser = getCookie("user");
     if (savedToken && savedUser) {
       setAccessToken(savedToken as string);
       setUser(JSON.parse(savedUser as string));
@@ -43,27 +49,30 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (email: string, password: string) => {
     try {
-      const response = await fetch('http://localhost:8000/api/auth/login', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/auth/login",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
       if (!response.ok) {
-        throw new Error('Login failed');
+        throw new Error("Login failed");
       }
 
       const data = await response.json();
       setUser(data.user);
       setAccessToken(data.accessToken);
-      
+
       // Store in cookies
-      setCookie('accessToken', data.accessToken, COOKIE_OPTIONS);
-      setCookie('user', JSON.stringify(data.user), COOKIE_OPTIONS);
+      setCookie("accessToken", data.accessToken, COOKIE_OPTIONS);
+      setCookie("user", JSON.stringify(data.user), COOKIE_OPTIONS);
     } catch (error) {
-      console.error('Login error:', error);
+      console.error("Login error:", error);
       throw error;
     }
   };
@@ -71,12 +80,14 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const logout = () => {
     setUser(null);
     setAccessToken(null);
-    deleteCookie('accessToken');
-    deleteCookie('user');
+    deleteCookie("accessToken");
+    deleteCookie("user");
   };
 
   return (
-    <AuthContext.Provider value={{ user, accessToken, login, logout, isAuthenticated: !!user }}>
+    <AuthContext.Provider
+      value={{ user, accessToken, login, logout, isAuthenticated: !!user }}
+    >
       {children}
     </AuthContext.Provider>
   );
@@ -85,7 +96,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

@@ -1,14 +1,15 @@
-import { createSlice, PayloadAction, createAsyncThunk } from '@reduxjs/toolkit';
-import { RootState } from '../store'; // Import RootState if you have a typed store
+import { createSlice, PayloadAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { RootState } from "../store"; // Import RootState if you have a typed store
 
 // Helper function to retrieve the token from cookies
 const getTokenFromCookies = () => {
-  const match = document.cookie.match(new RegExp('(^| )token=([^;]+)'));
+  const match = document.cookie.match(new RegExp("(^| )token=([^;]+)"));
   return match ? match[2] : null;
 };
 
 // Define the API URL
-const API_URL = 'http://localhost:8000/api/property';
+const API_URL =
+  "https://inquisitive-cheesecake-790f9d.netlify.app/api/property";
 
 // Define the Property state type
 interface PropertyState {
@@ -36,14 +37,14 @@ interface PropertyState {
 const initialState: PropertyState = {
   id: null,
   userId: null,
-  address: '',
+  address: "",
   price: 0,
   bath: 0,
   bed: 0,
   size: 0,
-  description: '',
+  description: "",
   images: [],
-  propertyType: '',
+  propertyType: "",
   lat: null,
   long: null,
   isForRent: false,
@@ -56,11 +57,11 @@ const initialState: PropertyState = {
 
 // Define the async thunk for creating/updating a property
 export const submitPropertyDetails = createAsyncThunk<
-  PropertyState,                // Returned data type
-  PropertyState,                // Thunk argument type
-  { rejectValue: string }       // Rejection value type
+  PropertyState, // Returned data type
+  PropertyState, // Thunk argument type
+  { rejectValue: string } // Rejection value type
 >(
-  'property/submitPropertyDetails',
+  "property/submitPropertyDetails",
   async (property, { getState, rejectWithValue }) => {
     try {
       // Access the current images from the state
@@ -75,32 +76,35 @@ export const submitPropertyDetails = createAsyncThunk<
 
       const token = getTokenFromCookies(); // Retrieve the token from cookies
       const response = await fetch(API_URL, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify(propertyWithImages),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to submit property details');
+        throw new Error("Failed to submit property details");
       }
 
       return await response.json(); // Assuming the backend returns the created/updated property
     } catch {
-      return rejectWithValue('An error occurred');
+      return rejectWithValue("An error occurred");
     }
   }
 );
 
 // Redux slice for the property
 const propertySlice = createSlice({
-  name: 'property',
+  name: "property",
   initialState,
   reducers: {
     // Action to set all property details
-    setPropertyDetails: (state, action: PayloadAction<Partial<PropertyState>>) => {
+    setPropertyDetails: (
+      state,
+      action: PayloadAction<Partial<PropertyState>>
+    ) => {
       return {
         ...state,
         ...action.payload,
@@ -119,24 +123,27 @@ const propertySlice = createSlice({
         state.error = null;
       })
       // Success state for API submission
-      .addCase(submitPropertyDetails.fulfilled, (state: PropertyState, action: PayloadAction<PropertyState>) => {
-        state.loading = false;
-        // Assuming the response contains the updated property details
-        Object.assign(state, action.payload);
-      })
+      .addCase(
+        submitPropertyDetails.fulfilled,
+        (state: PropertyState, action: PayloadAction<PropertyState>) => {
+          state.loading = false;
+          // Assuming the response contains the updated property details
+          Object.assign(state, action.payload);
+        }
+      )
       // Error state for API submission
-      .addCase(submitPropertyDetails.rejected, (state: PropertyState, action: PayloadAction<string | undefined>) => {
-        state.loading = false;
-        state.error = action.payload || 'An unknown error occurred.';
-      });
+      .addCase(
+        submitPropertyDetails.rejected,
+        (state: PropertyState, action: PayloadAction<string | undefined>) => {
+          state.loading = false;
+          state.error = action.payload || "An unknown error occurred.";
+        }
+      );
   },
 });
 
 // Export the actions
-export const {
-  setPropertyDetails,
-  setPropertyImages,
-} = propertySlice.actions;
+export const { setPropertyDetails, setPropertyImages } = propertySlice.actions;
 
 // Export the reducer to be used in the store
 export default propertySlice.reducer;

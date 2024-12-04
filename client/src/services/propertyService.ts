@@ -46,7 +46,7 @@ export async function fetchProperties(options: SearchOptions) {
   });
 
   const response = await fetch(
-    `http://localhost:8000/api/properties/search?${params}`
+    `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/search?${params}`
   );
   if (!response.ok) throw new Error("Failed to fetch properties");
   return response.json();
@@ -70,7 +70,7 @@ export async function fetchAllMapPins(
     });
 
     const response = await fetch(
-      `http://localhost:8000/api/properties/search?${params}`
+      `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/search?${params}`
     );
     if (!response.ok) throw new Error("Failed to fetch map pins");
     const data = await response.json();

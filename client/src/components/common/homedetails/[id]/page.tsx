@@ -103,19 +103,22 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
       }
 
       const userData = JSON.parse(decodeURIComponent(userCookie));
-      const response = await fetch("http://localhost:8000/api/deal", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          propertyId: property._id,
-          sellerId: property.userId,
-          buyerId: userData._id,
-          initialPrice: property.price,
-          offerPrice: 0,
-          finalPrice: 0,
-          status: "ongoing",
-        }),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/deal",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            propertyId: property._id,
+            sellerId: property.userId,
+            buyerId: userData._id,
+            initialPrice: property.price,
+            offerPrice: 0,
+            finalPrice: 0,
+            status: "ongoing",
+          }),
+        }
+      );
 
       if (!response.ok) {
         throw new Error("Failed to create deal");
@@ -148,17 +151,20 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
     setFormError("");
 
     try {
-      const response = await fetch("http://localhost:8000/api/email", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          propertyId: property._id, // Send property ID to the backend
-          name: formData.name,
-          email: formData.email,
-          phone: formData.phone,
-          message: formData.message,
-        }),
-      });
+      const response = await fetch(
+        "https://inquisitive-cheesecake-790f9d.netlify.app/api/email",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            propertyId: property._id, // Send property ID to the backend
+            name: formData.name,
+            email: formData.email,
+            phone: formData.phone,
+            message: formData.message,
+          }),
+        }
+      );
 
       if (response.ok) {
         setFormData({

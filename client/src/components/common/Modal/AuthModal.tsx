@@ -87,7 +87,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       if (isSignIn) {
         // Login request
         const response = await axios.post(
-          "http://localhost:8000/api/auth/login",
+          "https://inquisitive-cheesecake-790f9d.netlify.app/api/auth/login",
           {
             email: formData.email,
             password: formData.password,
@@ -123,12 +123,15 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         });
       } else {
         // Register request
-        await axios.post("http://localhost:8000/api/auth/register", {
-          firstname: formData.firstname,
-          lastname: formData.lastname,
-          email: formData.email,
-          password: formData.password,
-        });
+        await axios.post(
+          "https://inquisitive-cheesecake-790f9d.netlify.app/api/auth/register",
+          {
+            firstname: formData.firstname,
+            lastname: formData.lastname,
+            email: formData.email,
+            password: formData.password,
+          }
+        );
 
         setIsSignIn(true);
         notyf.success("Account created successfully. Please sign in.");
@@ -142,7 +145,9 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
       }
     } catch (err) {
       console.error("Auth error:", err);
-      const errorMessage = (err as AuthError).response?.data?.message || "An error occurred. Please try again later.";
+      const errorMessage =
+        (err as AuthError).response?.data?.message ||
+        "An error occurred. Please try again later.";
       setError(errorMessage);
       notyf.error(errorMessage);
     } finally {
