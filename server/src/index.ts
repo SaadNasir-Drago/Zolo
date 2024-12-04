@@ -69,7 +69,7 @@ export const notifyNewProperty = (property: any) => {
 
 
 // Start the server
-const port = process.env.PORT || 8001;
+const port = process.env.PORT || 8000;
 httpServer.listen(port, () => {
   console.log(`Socket.IO server running on port ${port}`);
 });
