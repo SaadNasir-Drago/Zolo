@@ -9,7 +9,7 @@ const getTokenFromCookies = () => {
 
 // Define the API URL
 const API_URL =
-  "https://inquisitive-cheesecake-790f9d.netlify.app/api/property";
+  "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/property";
 
 // Define the Property state type
 interface PropertyState {

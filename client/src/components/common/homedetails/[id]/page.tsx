@@ -104,7 +104,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
 
       const userData = JSON.parse(decodeURIComponent(userCookie));
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/deal",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/deal",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -152,7 +152,7 @@ const PropertyModal: React.FC<PropertyModalProps> = ({
 
     try {
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/email",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/email",
         {
           method: "POST",
           headers: { "Content-Type": "application/json" },

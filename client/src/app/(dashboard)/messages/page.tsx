@@ -106,7 +106,7 @@ const MessageThread = () => {
       const page = 1;
       const limit = 10;
       const response = await fetch(
-        `https://inquisitive-cheesecake-790f9d.netlify.app/api/deals?page=${page}&limit=${limit}`,
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/deals?page=${page}&limit=${limit}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -133,7 +133,7 @@ const MessageThread = () => {
   const fetchPropertyDetails = async (dealId: string) => {
     try {
       const response = await fetch(
-        `https://inquisitive-cheesecake-790f9d.netlify.app/api/dealProperty?dealId=${dealId}`
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/dealProperty?dealId=${dealId}`
       );
       const data = await response.json();
       return data.property; // Assuming the API response has a 'property' field
@@ -146,7 +146,7 @@ const MessageThread = () => {
   const fetchMessages = async (dealId: string) => {
     try {
       const response = await fetch(
-        `https://inquisitive-cheesecake-790f9d.netlify.app/api/message?dealId=${dealId}`
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message?dealId=${dealId}`
       );
       const data = await response.json();
       if (data.messages) {
@@ -194,7 +194,7 @@ const MessageThread = () => {
 
     try {
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
         {
           method: "POST",
           headers: {
@@ -230,7 +230,7 @@ const MessageThread = () => {
     if (!selectedDeal || !selectedOffer) return;
     try {
       await fetch(
-        `https://inquisitive-cheesecake-790f9d.netlify.app/api/acceptDeal?dealId=${selectedDeal._id}`,
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/acceptDeal?dealId=${selectedDeal._id}`,
         {
           method: "PUT",
         }
@@ -246,7 +246,7 @@ const MessageThread = () => {
       };
 
       await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/messageAll",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/messageAll",
         {
           method: "POST",
           headers: {
@@ -266,7 +266,7 @@ const MessageThread = () => {
       };
 
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
         {
           method: "POST",
           headers: {
@@ -302,7 +302,7 @@ const MessageThread = () => {
       };
 
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/message",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/message",
         {
           method: "POST",
           headers: {

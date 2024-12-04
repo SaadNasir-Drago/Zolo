@@ -50,7 +50,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const login = async (email: string, password: string) => {
     try {
       const response = await fetch(
-        "https://inquisitive-cheesecake-790f9d.netlify.app/api/auth/login",
+        "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/auth/login",
         {
           method: "POST",
           headers: {

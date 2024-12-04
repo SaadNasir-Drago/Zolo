@@ -42,7 +42,7 @@ const DashboardPropertyModal: React.FC<PropertyModalProps> = ({
     try {
       const token = Cookies.get("token");
       const response = await fetch(
-        `https://inquisitive-cheesecake-790f9d.netlify.app/api/properties/${property._id}`,
+        `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/properties/${property._id}`,
         {
           method: "DELETE",
           headers: {

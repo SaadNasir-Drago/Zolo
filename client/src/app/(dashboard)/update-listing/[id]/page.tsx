@@ -10,7 +10,7 @@ const Updatelisting = ({ params }: { params: { id: string } }) => {
     if (id) {
       axios
         .get(
-          `https://inquisitive-cheesecake-790f9d.netlify.app/api/getProperty/${id}`
+          `https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/api/getProperty/${id}`
         )
         .then((response) => {
           setProperty(response.data);
