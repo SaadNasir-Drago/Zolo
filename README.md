@@ -1,5 +1,5 @@
 **Zolo** | Connects real estate buyers, renters and owners in one single platform.
-
+Deployed: https://zolo-opal.vercel.app/
 Video DEMO: https://youtu.be/xHgsWPH07NI?si=zMNFgkkZIy2v4iMB
 
 1. Complete CRUD functionalities built using Next.js for frontend, Node.js & TypeScript for backend, Tailwind CSS & Material UI for UI/UX & MongoDB for database.
