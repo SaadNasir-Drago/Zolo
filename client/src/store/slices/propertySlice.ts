@@ -8,8 +8,7 @@ const getTokenFromCookies = () => {
 };
 
 // Define the API URL
-const API_URL =
-  "https://railway.app/project/2ff822b9-c7df-426d-b0a1-a2b5b874b4e7/service/d8373c98-7f0a-40c7-9eb6-0efd5a4f9fe5/api/property";
+const API_URL = "https://zolo-production.up.railway.app/api/property";
 
 // Define the Property state type
 interface PropertyState {
