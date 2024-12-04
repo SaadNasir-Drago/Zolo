@@ -25,7 +25,7 @@ interface Property {
 }
 
 // Create a singleton socket instance
-const socket = io("http://localhost:8000");
+const socket = io("https://zolo-production.up.railway.app");
 
 const Recommendations = () => {
   const scrollContainerRef = useRef<HTMLDivElement>(null);

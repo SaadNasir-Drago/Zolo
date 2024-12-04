@@ -23,7 +23,7 @@ const PropertyModal = dynamic(() => import("./detailsModal"));
 import { io } from "socket.io-client";
 import { Notyf } from "notyf";
 
-const socket = io("http://localhost:8000"); // Connect to the WebSocket server
+const socket = io("https://zolo-production.up.railway.app"); // Connect to the WebSocket server
 
 const MessageThread = () => {
   const [isClient, setIsClient] = useState(false);
