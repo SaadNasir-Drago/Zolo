@@ -22,7 +22,6 @@ export const createProperty = async (req: any, res: any) => {
         isForSale: req.body.isForSale,
         images: req.body.images, // Save the uploaded image file paths]
         amenities: req.body.amenities
-      
       };
 
       // Save the property to the database

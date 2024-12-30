@@ -123,7 +123,7 @@ const AuthModal = ({ isOpen, onClose }: AuthModalProps) => {
         });
       } else {
         // Register request
-        await axios.post(
+        await axios.post( 
           "https://zolo-production.up.railway.app/api/auth/register",
           {
             firstname: formData.firstname,

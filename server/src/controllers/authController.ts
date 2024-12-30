@@ -10,7 +10,7 @@ const register = async (req: any, res: any) => {
         // Validate the request body with Zod schema
         const validatedData = registerSchema.parse(req.body);
         const { firstname, lastname, email, password } = validatedData;
-
+        
         // Check if the user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
@@ -26,8 +26,19 @@ const register = async (req: any, res: any) => {
             email,
             password: hashedPassword,
         });
-
-        await newUser.save();
+        
+        try {
+            const savedUser = await newUser.save();
+            console.log('Saved user:', savedUser);
+        } catch (saveError:any) {
+            console.error('Save error:', saveError);
+            return res.status(500).json({ 
+                message: 'Error saving user', 
+                error: saveError.message,
+                details: saveError 
+            });
+        }
+        
         return res.status(201).json({ message: 'User registered successfully' });
     } catch (err) {
         if (err instanceof z.ZodError) {
@@ -40,44 +51,66 @@ const register = async (req: any, res: any) => {
 // Login function
 const login = async (req: any, res: any) => {
     try {
+        // Log the incoming request
+        console.log('Login attempt with:', req.body);
+
         // Validate request body with Zod
         const validatedData = loginSchema.parse(req.body);
         const { email, password } = validatedData;
+        console.log('Validated login data:', { email });
 
         // Find user by email
-        const user = await User.findOne({ email });
-        if (!user) {
-            return res.status(400).json({ message: 'Invalid credentials' });
+        try {
+            const user = await User.findOne({ email });
+            console.log('User found:', user ? 'Yes' : 'No');
+
+            if (!user) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+
+            // Compare passwords
+            if (!user.password) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+            const isMatch = await bcrypt.compare(password, user.password);
+            console.log('Password match:', isMatch);
+
+            if (!isMatch) {
+                return res.status(400).json({ message: 'Invalid credentials' });
+            }
+
+            // Create JWT token
+            const token = jwt.sign(
+                { id: user._id, email: user.email },
+                process.env.JWT_SECRET as string,
+                { expiresIn: '30d' }
+            );
+
+            // Prepare user data without the password
+            const userData = user.toObject();
+            delete userData.password;
+
+            return res.status(200).json({
+                message: 'Login successful',
+                accessToken: token,
+                user: userData,
+            });
+        } catch (findError: any) {
+            console.error('Database query error:', findError);
+            return res.status(500).json({ 
+                message: 'Error finding user',
+                error: findError.message 
+            });
         }
-
-        // Compare passwords
-
-        const isMatch = await bcrypt.compare(password, user.password); // Use await for async comparison
-        if (!isMatch) {
-            return res.status(400).json({ message: 'Invalid credentials' });
-        }
-
-        // Create JWT token
-        const token = jwt.sign(
-            { id: user._id, email: user.email },
-            process.env.JWT_SECRET as string,
-            { expiresIn: '30d' }
-        );
-
-        // Prepare user data without the password
-        const { password: _, ...userData } = user.toObject();
-
-        // Send response with token and user data
-        return res.status(200).json({
-            message: 'Login successful',
-            accessToken: token,
-            user: userData,
-        });
-    } catch (err) {
+    } catch (err: any) {
+        console.error('Login error:', err);
         if (err instanceof z.ZodError) {
             return res.status(400).json({ errors: err.errors });
         }
-        return res.status(500).json({ message: 'Server error' });
+        return res.status(500).json({ 
+            message: 'Server error',
+            error: err.message 
+        });
     }
 };
 

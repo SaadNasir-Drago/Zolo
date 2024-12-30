@@ -4,7 +4,7 @@ export interface IUser extends Document {
     email: string;
     firstname: string;
     lastname: string;
-    password: string;
+    password?: string;
     createdAt: Date;
   }
   
@@ -12,19 +12,19 @@ export interface IUser extends Document {
 const userSchema = new mongoose.Schema({
     firstname: { 
         type: String, 
-        required: true, 
-        unique: true 
+        required: true
+        // removed unique: true
     },
     lastname: { 
         type: String, 
-        required: true, 
-        unique: true 
+        required: true
+        // removed unique: true
     },
     email: { 
         type: String, 
         required: true, 
-        unique: true,
-        match: [/.+@.+\..+/, 'Please enter a valid email address'] // Email validation
+        unique: true,  // keep email unique
+        match: [/.+@.+\..+/, 'Please enter a valid email address']
     },
     password: { 
         type: String, 
