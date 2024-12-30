@@ -11,7 +11,7 @@ const authMiddleware = (req:any, res: any , next: express.NextFunction) => {
 
     try {
         // Verify the token using the secret key
-        const decoded = jwt.verify(token, process.env.JWT_SECRET as string);
+        const decoded = jwt.verify(token, 'e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855' as string);
         
         // Attach user information to the request object for access in route handlers
         req.user = decoded; // You can type req.user if you have a user interface defined
